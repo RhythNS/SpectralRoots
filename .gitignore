@@ -72,3 +72,14 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+#Plugins
+Plugins/*
+
+# FMOD
+*.bank
+/FMOD/.cache
+/FMOD/.unsaved
+/FMOD/.user
+/FMOD/Assets
+/FMOD/Metadata/ProfilerSession
