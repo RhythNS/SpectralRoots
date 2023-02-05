@@ -49,12 +49,38 @@ ASpectralRootsCharacter::ASpectralRootsCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	SetCanBeDamaged(true);
+}
+
+float ASpectralRootsCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	if (!alive)
+		return 0.0f;
+
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	remainingHealth -= DamageAmount;
+	if (remainingHealth <= 0.0f)
+	{
+		DamageAmount += remainingHealth;
+		remainingHealth = 0.0f;
+		alive = false;
+		OnDied();
+	}
+	OnHealthChanged(remainingHealth / maxHealth);
+
+	return DamageAmount;
 }
 
 void ASpectralRootsCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	alive = true;
+	remainingHealth = maxHealth;
+	OnHealthChanged(1.0f);
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))

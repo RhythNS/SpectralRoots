@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "OneShotManager.h"
+#include "Utils/CommonStatics.h"
+#include "Player/SpectralRootsHUD.h"
 
 // Sets default values
 AOneShotManager::AOneShotManager()
@@ -16,7 +17,7 @@ void AOneShotManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-//	UCommonStatics::GetHUD(GetWorld())->oneShootManager = this;
+	UCommonStatics::GetHUD(GetWorld())->oneShootManager = this;
 }
 
 void AOneShotManager::EndPlay(const EEndPlayReason::Type EndPlayReason)

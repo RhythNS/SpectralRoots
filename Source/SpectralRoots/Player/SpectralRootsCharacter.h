@@ -40,8 +40,14 @@ class ASpectralRootsCharacter : public ACharacter
 public:
 	ASpectralRootsCharacter();
 	
+	float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnHealthChanged(float percentLeft);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDied();
 
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
@@ -49,13 +55,20 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
-
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float maxHealth = 100.0f;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	float remainingHealth = maxHealth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool alive = true;
 
 public:
 	/** Returns CameraBoom subobject **/
