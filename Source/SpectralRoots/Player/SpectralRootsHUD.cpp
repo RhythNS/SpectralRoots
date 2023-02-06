@@ -3,3 +3,7 @@
 
 #include "Player/SpectralRootsHUD.h"
 
+void ASpectralRootsHUD::InvokeFadeCallback(const FFadeFinished& onFinished)
+{
+	onFinished.ExecuteIfBound();
+}

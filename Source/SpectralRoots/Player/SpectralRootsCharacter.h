@@ -49,6 +49,12 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDied();
 
+	UFUNCTION(BlueprintCallable)
+	void Respawn();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnRespawned();
+
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 

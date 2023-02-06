@@ -9,6 +9,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Utils/CommonStatics.h"
+#include "GameMode/Tree/TreeGameMode.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -112,6 +114,16 @@ void ASpectralRootsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 	}
 
+}
+
+void ASpectralRootsCharacter::Respawn()
+{
+	UCommonStatics::GetGameMode(this)->TeleportToCheckpoint(this);
+	alive = true;
+	remainingHealth = maxHealth;
+	OnHealthChanged(1.0f);
+
+	OnRespawned();
 }
 
 void ASpectralRootsCharacter::Move(const FInputActionValue& Value)
