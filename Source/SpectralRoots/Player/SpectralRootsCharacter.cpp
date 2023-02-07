@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SpectralRootsCharacter.h"
+#include "SpectralRootsHUD.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -12,7 +13,6 @@
 #include "Utils/CommonStatics.h"
 #include "GameMode/Tree/TreeGameMode.h"
 
-
 //////////////////////////////////////////////////////////////////////////
 // ASpectralRootsCharacter
 
@@ -20,7 +20,7 @@ ASpectralRootsCharacter::ASpectralRootsCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-		
+
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -92,6 +92,8 @@ void ASpectralRootsCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	hud = UCommonStatics::GetHUD(this);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -101,7 +103,7 @@ void ASpectralRootsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 {
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
-		
+
 		//Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
@@ -112,6 +114,8 @@ void ASpectralRootsCharacter::SetupPlayerInputComponent(class UInputComponent* P
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpectralRootsCharacter::Look);
 
+		//Buttons
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Triggered, this, &ASpectralRootsCharacter::Pause);
 	}
 
 }
@@ -139,7 +143,7 @@ void ASpectralRootsCharacter::Move(const FInputActionValue& Value)
 
 		// get forward vector
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
+
 		// get right vector 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
@@ -162,6 +166,8 @@ void ASpectralRootsCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-
-
-
+void ASpectralRootsCharacter::Pause(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+		hud->Pause();
+}

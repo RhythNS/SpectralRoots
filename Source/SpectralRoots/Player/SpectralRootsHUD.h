@@ -24,6 +24,11 @@ class SPECTRALROOTS_API ASpectralRootsHUD : public AHUD
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void Pause();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void UnPause();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void FadeTo(const FFadeFinished& onFinished, FadeBehaviour behaviour = FadeInOut);

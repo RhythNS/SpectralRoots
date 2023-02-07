@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "SpectralRootsCharacter.generated.h"
 
+class ASpectralRootsHUD;
 
 UCLASS(config=Game)
 class ASpectralRootsCharacter : public ACharacter
@@ -36,6 +37,10 @@ class ASpectralRootsCharacter : public ACharacter
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+	
+	/** Pauses Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* PauseAction;
 
 public:
 	ASpectralRootsCharacter();
@@ -61,6 +66,9 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
+	/** Called for Pause input */
+	void Pause(const FInputActionValue& Value);
+			
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
@@ -75,6 +83,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool alive = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	ASpectralRootsHUD* hud;
 
 public:
 	/** Returns CameraBoom subobject **/

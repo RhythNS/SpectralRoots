@@ -22,7 +22,9 @@ class SPECTRALROOTS_API IPausable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void OnPause() {}
+	UFUNCTION(BlueprintNativeEvent)
+	void OnPause();
 
-	virtual void OnResume() {}
+	UFUNCTION(BlueprintNativeEvent)
+	void OnResume();
 };

@@ -3,6 +3,7 @@
 #include "OneShotManager.h"
 #include "Utils/CommonStatics.h"
 #include "Player/SpectralRootsHUD.h"
+#include "GameMode/Tree/TreeGameMode.h"
 
 // Sets default values
 AOneShotManager::AOneShotManager()
@@ -18,6 +19,7 @@ void AOneShotManager::BeginPlay()
 	Super::BeginPlay();
 
 	UCommonStatics::GetHUD(GetWorld())->oneShootManager = this;
+	UCommonStatics::GetGameMode(GetWorld())->RegisterPausable(this);
 }
 
 void AOneShotManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -30,6 +32,8 @@ void AOneShotManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			instances[i].Instance->release();
 		}
 	}
+
+	UCommonStatics::GetGameMode(GetWorld())->UnRegisterPausable(this);
 }
 
 inline bool AOneShotManager::IsValid(FFMODEventInstance& instance)
@@ -83,7 +87,7 @@ void AOneShotManager::AddInstance(FFMODEventInstance oneShoot)
 	SetActorTickEnabled(true);
 }
 
-void AOneShotManager::OnPause()
+void AOneShotManager::OnPause_Implementation()
 {
 	RemoveUnused();
 
@@ -91,7 +95,7 @@ void AOneShotManager::OnPause()
 		instances[i].Instance->setPaused(true);
 }
 
-void AOneShotManager::OnResume()
+void AOneShotManager::OnResume_Implementation()
 {
 	for (int32 i = 0; i < instances.Num(); i++)
 		instances[i].Instance->setPaused(false);

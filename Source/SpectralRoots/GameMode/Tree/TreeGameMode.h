@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
+#include "Interface/Pausable.h"
 #include "TreeGameMode.generated.h"
 
 class ASpectralRootsCharacter;
@@ -15,6 +16,18 @@ class SPECTRALROOTS_API ATreeGameMode : public AGameMode
 	GENERATED_BODY()
 	
 public:
+	UFUNCTION(BlueprintCallable)
+	void RegisterPausable(UObject* pausable);
+
+	UFUNCTION(BlueprintCallable)
+	void UnRegisterPausable(UObject* pausable);
+
+	UFUNCTION(BlueprintCallable)
+	void Pause();
+	
+	UFUNCTION(BlueprintCallable)
+	void UnPause();
+
 	UFUNCTION(BlueprintCallable)
 	void TeleportToCheckpoint(ASpectralRootsCharacter* toTeleport);
 
@@ -30,4 +43,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	ACheckpointStart* activeCheckpoint = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<UObject*> pausables;
 };

@@ -22,10 +22,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddInstance(FFMODEventInstance oneShoot);
+	
+	virtual void OnPause_Implementation();
 
-	void OnPause() override;
-
-	void OnResume() override;
+	virtual void OnResume_Implementation();
 
 protected:
 	// Called when the game starts or when spawned
